@@ -31,11 +31,13 @@ async def on_message(message):
 
 @bot.command()
 async def ping(ctx):
+    """Pong!"""
     await ctx.send('Pong!')
 
 
 @bot.command()
 async def conn(ctx):
+    """senf amount of connected devices"""
     #get and write to file amount of estabilished connections
     system("netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq | wc -l > conn-amount.dat")
     #send result
@@ -46,6 +48,7 @@ async def conn(ctx):
 
 @bot.command()
 async def connlst(ctx):
+    """"send list of IPs pf connected devices"""
     #get and write to file list of estabilished connections (their IP's actually)
     system("netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq > conn-lst.dat")
     #send result
