@@ -48,7 +48,7 @@ async def conn(ctx):
 
 @bot.command()
 async def connlst(ctx):
-    """send list of IPs pf connected devices"""
+    """send list of IPs of connected devices"""
     #get and write to file list of estabilished connections (their IP's actually)
     system("netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq > conn-lst.dat")
     #send result
