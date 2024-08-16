@@ -1,7 +1,10 @@
 from discord.ext import commands
 from discord import Intents
+
 from subprocess import Popen, PIPE
 from typing import *
+from shutil import disk_usage
+from psutil import virtual_memory, cpu_freq, cpu_percent  # type: ignore
 
 
 #setup
@@ -17,8 +20,17 @@ with open('config.txt', 'r') as f:
 
 
 def execute(cmd: str) -> Any:
+    """executes command in terminal and returns output"""
     temp = Popen(cmd, stdout=PIPE)
     return temp.communicate()[0].decode()
+
+
+def get_size(bytes: int) -> str:
+    """Returns size of bytes in a nice format"""
+    for unit in ['', 'K', 'M', 'G', 'T', 'P']:
+        if bytes < 1024:
+            return f"{bytes:.2f}{unit}B"
+        bytes /= 1024
 
 
 @bot.event
@@ -78,6 +90,19 @@ async def unban(ctx, ip: str):
     removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip} drop\' --permanent')
     reloadStatus = execute('firewall-cmd --reload')
     await ctx.send(f'remove firewall rule: {removeStatus}\nreload firewall: {reloadStatus}')
+
+
+@bot.command()
+async def serverinfo(ctx):
+    """send info about server"""
+    disk = disk_usage()
+    disk.total, disk.used, disk.free
+    memory = virtual_memory()
+    memory.total, memory.used
+    result =  f'Disk total:{get_size(disk.total)} used:{get_size(disk.used)} free:{get_size(disk.free)}' \
+            + f'RAM total:{get_size(memory.total)} used:{get_size(memory.used)}' \
+            + f'CPU freq:{cpu_freq().current}MHz / {cpu_freq().max}MHz  perc:{cpu_percent()}%'
+    await ctx.send(result)
 
 
 #run
