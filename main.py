@@ -77,6 +77,7 @@ async def banlist(ctx):
     result = execute('firewall-cmd --zone-=public --list-rich-rules')
     await ctx.send(result)
 
+
 @bot.command()
 async def ban(ctx, ip: str):
     """ban IP connection; provide correct IP to ban"""
