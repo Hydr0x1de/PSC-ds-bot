@@ -1,6 +1,7 @@
 from discord.ext import commands
 from discord import Intents
-from os import system
+from subprocess import Popen, PIPE
+from typing import *
 
 
 #setup
@@ -14,6 +15,10 @@ with open('config.txt', 'r') as f:
     read = [line.strip() for line in read]
     TOKEN, PORT, *other = read # *other is just protection
 
+
+def execute(cmd: str) -> Any:
+    temp = Popen(cmd, stdout=PIPE)
+    return temp.communicate()[0].decode()
 
 
 @bot.event
@@ -38,11 +43,8 @@ async def ping(ctx):
 @bot.command()
 async def conn(ctx):
     """send amount of connected devices"""
-    #get and write to file amount of estabilished connections
-    system("netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq | wc -l > conn-amount.dat")
-    #send result
-    with open('conn-amount.dat', 'r') as f:
-        result = f.read().strip()
+    result = execute(
+        "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq | wc -l")
     await ctx.send(f'{result} devices connected')
 
 
@@ -50,11 +52,28 @@ async def conn(ctx):
 async def connlst(ctx):
     """send list of IPs of connected devices"""
     #get and write to file list of estabilished connections (their IP's actually)
-    system("netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq > conn-lst.dat")
-    #send result
-    with open('conn-lst.dat', 'r') as f:
-        result = f.read().strip()
+    result = execute(
+        "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq")
     await ctx.send(f'List of all connected devices:\n{result}')
+
+
+@bot.commnad()
+async def banlist(ctx):
+    #NOTE: firewall-cmd --list-all
+    pass
+
+@bot.commnad()
+async def banip(ctx, ip: str):
+    #NOTE: firewall-cmd --add-rich-rule="rule family='ipv4' source address={ip} reject"
+    # firewall-cmd --reload
+    # ss -K dst {ip}
+    pass
+
+@bot.commnad()
+async def unbanip(ctx, ip: str):
+    #NOTE: firewall-cmd --remove-rich-rule="rule family='ipv4' source address={ip} reject"
+    # firewall-cmd --reload
+    pass
 
 
 #run
