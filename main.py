@@ -57,7 +57,7 @@ async def conn(ctx):
     """send amount of connected devices"""
     result = execute(
         "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq | wc -l",
-        shell=True)
+        shell=True).strip()
     await ctx.send(f'{result} devices connected')
 
 
