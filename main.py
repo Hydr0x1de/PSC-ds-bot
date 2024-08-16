@@ -59,21 +59,25 @@ async def connlst(ctx):
 
 @bot.commnad()
 async def banlist(ctx):
-    #NOTE: firewall-cmd --list-all
-    pass
+    """send list of banned IPs"""
+    result = execute('firewall-cmd --zone-=public --list-rich-rules')
+    await ctx.send(result)
 
 @bot.commnad()
-async def banip(ctx, ip: str):
-    #NOTE: firewall-cmd --add-rich-rule="rule family='ipv4' source address={ip} reject"
-    # firewall-cmd --reload
-    # ss -K dst {ip}
-    pass
+async def ban(ctx, ip: str):
+    """ban IP connection; provide correct IP to ban"""
+    addStatus = execute(f'firewall-cmd --zone=public --add-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
+    reloadStatus = execute('firewall-cmd --reload')
+    execute(f'ss -K dst {ip}')
+    await ctx.send(f'add firewall rule: {addStatus}\nreload firewall: {reloadStatus}\ndevice kicked out: success')
+
 
 @bot.commnad()
-async def unbanip(ctx, ip: str):
-    #NOTE: firewall-cmd --remove-rich-rule="rule family='ipv4' source address={ip} reject"
-    # firewall-cmd --reload
-    pass
+async def unban(ctx, ip: str):
+    """unban IP connection; provide correct IP to unban"""
+    removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip} drop\' --permanent')
+    reloadStatus = execute('firewall-cmd --reload')
+    await ctx.send(f'remove firewall rule: {removeStatus}\nreload firewall: {reloadStatus}')
 
 
 #run
