@@ -79,11 +79,11 @@ async def banlist(ctx):
     if not tmp:
         await ctx.send('Banlist is blank!')
     else:
-        print(tmp)
         pattern = r'source address="(\d+\.\d+\.\d+\.\d+)"'
         result = ''
         for line in tmp.split('\n'):
             match = search(pattern, line)
+            print(match)
             result += match.group(1) + '\n'
         await ctx.send('Banlist:\n' + result)
 
@@ -92,7 +92,7 @@ async def banlist(ctx):
 async def ban(ctx, ip: str):
     """ban IP connection; provide correct IP to ban"""
     addStatus = execute(f'firewall-cmd --zone=public --add-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
-    addStatus = addStatus.upper() if addStatus == 'success' else 'ERR'
+    # addStatus = addStatus.upper() if addStatus == 'success' else 'ERR'
     reloadStatus = execute('firewall-cmd --reload')
     reloadStatus = reloadStatus.upper() if reloadStatus == 'success' else 'ERR'
     execute(f'ss -K dst {ip}')
