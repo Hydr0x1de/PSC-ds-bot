@@ -85,7 +85,9 @@ async def banlist(ctx):
 async def ban(ctx, ip: str):
     """ban IP connection; provide correct IP to ban"""
     addStatus = execute(f'firewall-cmd --zone=public --add-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
+    addStatus = addStatus.upper() if addStatus == 'success' else 'ERR'
     reloadStatus = execute('firewall-cmd --reload')
+    reloadStatus = reloadStatus.upper() if reloadStatus == 'success' else 'ERR'
     execute(f'ss -K dst {ip}')
     await ctx.send(f'add firewall rule: {addStatus}\nreload firewall: {reloadStatus}\ndevice kicked out: success')
 
@@ -94,7 +96,9 @@ async def ban(ctx, ip: str):
 async def unban(ctx, ip: str):
     """unban IP connection; provide correct IP to unban"""
     removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
+    removeStatus =  removeStatus.upper() if removeStatus == 'success' else 'ERR'
     reloadStatus = execute('firewall-cmd --reload')
+    reloadStatus = reloadStatus.upper() if reloadStatus == 'success' else 'ERR'
     await ctx.send(f'remove firewall rule: {removeStatus}\nreload firewall: {reloadStatus}')
 
 
