@@ -76,16 +76,15 @@ async def connlst(ctx):
 async def banlist(ctx):
     """send list of banned IPs"""
     tmp = execute('firewall-cmd --zone=public --list-rich-rules')
-    pattern = r'source address="(\d+\.\d+\.\d+\.\d+)"'
-    result = ''
-    for line in tmp.split('\n'):
-        match = search(pattern, line)
-        result += match.group(1) + '\n'
-    
-    if result:
-        await ctx.send(result)
-    else:
+    if not tmp:
         await ctx.send('Banlist is blank!')
+    else:
+        pattern = r'source address="(\d+\.\d+\.\d+\.\d+)"'
+        result = ''
+        for line in tmp.split('\n'):
+            match = search(pattern, line)
+            result += match.group(1) + '\n'
+        await ctx.send('Banlist:\n' + result)
 
 
 @bot.command()
