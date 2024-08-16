@@ -93,7 +93,7 @@ async def ban(ctx, ip: str):
 @bot.command()
 async def unban(ctx, ip: str):
     """unban IP connection; provide correct IP to unban"""
-    removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip} drop\' --permanent')
+    removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
     reloadStatus = execute('firewall-cmd --reload')
     await ctx.send(f'remove firewall rule: {removeStatus}\nreload firewall: {reloadStatus}')
 
