@@ -69,13 +69,13 @@ async def connlst(ctx):
     await ctx.send(f'List of all connected devices:\n{result}')
 
 
-@bot.commnad()
+@bot.command()
 async def banlist(ctx):
     """send list of banned IPs"""
     result = execute('firewall-cmd --zone-=public --list-rich-rules')
     await ctx.send(result)
 
-@bot.commnad()
+@bot.command()
 async def ban(ctx, ip: str):
     """ban IP connection; provide correct IP to ban"""
     addStatus = execute(f'firewall-cmd --zone=public --add-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
@@ -84,7 +84,7 @@ async def ban(ctx, ip: str):
     await ctx.send(f'add firewall rule: {addStatus}\nreload firewall: {reloadStatus}\ndevice kicked out: success')
 
 
-@bot.commnad()
+@bot.command()
 async def unban(ctx, ip: str):
     """unban IP connection; provide correct IP to unban"""
     removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip} drop\' --permanent')
