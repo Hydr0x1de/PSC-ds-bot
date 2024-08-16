@@ -3,8 +3,8 @@ setup
 optionally (recommended) create virtual environment `python3 -m venv venv`
 and activate it `source venv/bin/activate`
 
-install from the requirements.txt
-`pip install -r requirements.txt`
+install packages
+`pip install discord.py`
 
 create "config.txt" file
 add the discord bot token in the first line 
