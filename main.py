@@ -19,9 +19,9 @@ with open('config.txt', 'r') as f:
     TOKEN, PORT, *other = read # *other is just protection
 
 
-def execute(cmd: str) -> Any:
+def execute(cmd: str, shell: bool =False) -> Any:
     """executes command in terminal and returns output"""
-    temp = Popen(cmd, stdout=PIPE)
+    temp = Popen(cmd, stdout=PIPE, shell=shell)
     return temp.communicate()[0].decode()
 
 
@@ -56,7 +56,8 @@ async def ping(ctx):
 async def conn(ctx):
     """send amount of connected devices"""
     result = execute(
-        "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq | wc -l")
+        "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq | wc -l",
+        shell=True)
     await ctx.send(f'{result} devices connected')
 
 
@@ -65,7 +66,8 @@ async def connlst(ctx):
     """send list of IPs of connected devices"""
     #get and write to file list of estabilished connections (their IP's actually)
     result = execute(
-        "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq")
+        "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq",
+        shell=True)
     await ctx.send(f'List of all connected devices:\n{result}')
 
 
