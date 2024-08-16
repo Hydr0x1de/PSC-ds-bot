@@ -5,6 +5,7 @@ from subprocess import Popen, PIPE
 from typing import *
 from shutil import disk_usage
 from psutil import virtual_memory, cpu_freq, cpu_percent  # type: ignore
+from re import search
 
 
 #setup
@@ -74,7 +75,13 @@ async def connlst(ctx):
 @bot.command()
 async def banlist(ctx):
     """send list of banned IPs"""
-    result = execute('firewall-cmd --zone=public --list-rich-rules')
+    tmp = execute('firewall-cmd --zone=public --list-rich-rules')
+    pattern = r'source address="(\d+\.\d+\.\d+\.\d+)"'
+    result = ''
+    for line in tmp.split('\n'):
+        match = search(pattern, line)
+        result += match.group(1) + '\n'
+    
     if result:
         await ctx.send(result)
     else:
