@@ -97,7 +97,7 @@ async def unban(ctx, ip: str):
 @bot.command()
 async def serverinfo(ctx):
     """send info about server"""
-    disk = disk_usage()
+    disk = disk_usage('/')
     disk.total, disk.used, disk.free
     memory = virtual_memory()
     memory.total, memory.used
