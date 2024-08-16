@@ -66,13 +66,15 @@ async def connlst(ctx):
     #get and write to file list of estabilished connections (their IP's actually)
     result = execute(
         "netstat -anp | grep :" + PORT + " | grep ESTABLISHED | awk '{print $5}' | cut -d: -f1 | sort | uniq")
-    await ctx.send(f'List of all connected devices:\n{result}')
-
+    if result:
+        await ctx.send(f'List of all connected devices:\n{result}')
+    else:
+        await ctx.send('No devices connected yet')
 
 @bot.command()
 async def banlist(ctx):
     """send list of banned IPs"""
-    result = execute('firewall-cmd --zone-=public --list-rich-rules')
+    result = execute('firewall-cmd --zone=public --list-rich-rules')
     if result:
         await ctx.send(result)
     else:
