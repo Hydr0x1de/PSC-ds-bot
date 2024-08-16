@@ -75,7 +75,7 @@ async def connlst(ctx):
 @bot.command()
 async def banlist(ctx):
     """send list of banned IPs"""
-    tmp = execute('firewall-cmd --zone=public --list-rich-rules')
+    tmp = execute('firewall-cmd --zone=public --list-rich-rules').strip()
     if not tmp:
         await ctx.send('Banlist is blank!')
     else:
