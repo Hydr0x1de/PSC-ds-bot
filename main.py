@@ -79,6 +79,7 @@ async def banlist(ctx):
     if not tmp:
         await ctx.send('Banlist is blank!')
     else:
+        print(tmp)
         pattern = r'source address="(\d+\.\d+\.\d+\.\d+)"'
         result = ''
         for line in tmp.split('\n'):
