@@ -118,7 +118,7 @@ async def serverinfo(ctx):
     disk.total, disk.used, disk.free
     memory = virtual_memory()
     memory.total, memory.used
-    result =  f'**Disk**    total:{get_size(disk.total)}   used:{get_size(disk.used)}   free:{get_size(disk.free)}\n' \
+    result =  f'**Disk**    {get_size(disk.used)} / {get_size(disk.total)} \n' \
             + f'**RAM**     {get_size(memory.used)} / {get_size(memory.total)}\n' \
             + f'**CPU**     {cpu_freq().current}MHz / {cpu_freq().max}MHz  perc:{cpu_percent()}%'
     await ctx.send(result)
