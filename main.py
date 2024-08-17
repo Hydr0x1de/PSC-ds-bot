@@ -155,7 +155,7 @@ async def serverinfo(ctx):
             + f'**CPU**     {cpu_freq().current}MHz / {cpu_freq().max}MHz  perc:{cpu_percent()}%'
     await ctx.send(result)
 
-
+ 
 @bot.command()
 async def restart(ctx):
     """reboot server"""
