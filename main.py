@@ -19,6 +19,7 @@ intents.guilds = True
 intents.guild_messages = True
 
 bot = commands.Bot(command_prefix='psc!', intents=intents)
+bot.remove_command('help')
 
 with open('config.txt', 'r') as f: 
     read = f.readlines()
