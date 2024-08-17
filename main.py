@@ -25,7 +25,7 @@ with open('config.txt', 'r') as f:
     read = [line.strip() for line in read]
     TOKEN, PORT, *other = read # *other is just protection
 if not exists('restart_ctx.json'):
-    with open('restart_ctx.json') as f:
+    with open('restart_ctx.json', 'w') as f:
         f.write('')
 
 def serialize_ctx(ctx: commands.context.Context) -> None:
