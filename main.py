@@ -84,6 +84,8 @@ async def on_ready():
 
 @bot.event
 async def on_command(ctx):
+    if ctx.message.author == bot.user:
+        return
     if not ctx.author.guild_permissions.administrator:
         await ctx.send('You do not have admin perms to use commands')
         return 
