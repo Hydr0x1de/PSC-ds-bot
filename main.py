@@ -75,12 +75,19 @@ async def on_ready():
             f.write('')
 
 
+# @bot.event
+# async def on_message(message):
+#     if message.author == bot.user:
+#         return  
+#     print(f'message from {message.author} : {message.content}')
+#     await bot.process_commands(message)
+
 @bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return  
-    print(f'message from {message.author} : {message.content}')
-    await bot.process_commands(message)
+async def on_command(ctx):
+    if not ctx.author.guild_permissions.administrator:
+        await ctx.send('You do not have admin perms to use commands')
+        return 
+    await bot.process_commands(ctx.message)
 
 
 @bot.command()
@@ -95,7 +102,8 @@ async def help(ctx):
     - ban <IP>   - ban
     - unban <IP> - unban
     - serverinfo - get basic information about host server
-    - restart    - restart (reboot) entire server```
+    - restart    - restart (reboot) entire server
+    - reboot     - alias of restart```
     """
     await ctx.send(msg)
 

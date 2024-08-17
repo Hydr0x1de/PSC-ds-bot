@@ -25,4 +25,5 @@ commands list:
 - unban <IP> - unban
 - serverinfo - get basic information about host server
 - restart    - restart (reboot) entire server
+- reboot     - alias of restart
 ```
