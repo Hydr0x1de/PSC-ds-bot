@@ -75,24 +75,25 @@ async def on_ready():
             f.write('')
 
 
-# @bot.event
-# async def on_message(message):
-#     if message.author == bot.user:
-#         return  
-#     print(f'message from {message.author} : {message.content}')
-#     await bot.process_commands(message)
-
 @bot.event
-async def on_command(ctx):
-    if ctx.message.author == bot.user:
-        return
-    if not ctx.author.guild_permissions.administrator:
-        await ctx.send('You do not have admin perms to use commands')
-        return 
-    await bot.process_commands(ctx.message)
+async def on_message(message):
+    if message.author == bot.user:
+        return  
+    print(f'message from {message.author} : {message.content}')
+    await bot.process_commands(message)
+
+# @bot.event
+# async def on_command(ctx):
+#     if ctx.message.author == bot.user:
+#         return
+#     if not ctx.author.guild_permissions.administrator:
+#         await ctx.send('You do not have admin perms to use commands')
+#         return 
+#     await bot.process_commands(ctx.message)
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def help(ctx):
     """send help message"""
     msg = """commands list:\n```
@@ -111,12 +112,14 @@ async def help(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def ping(ctx):
     """Pong!"""
     await ctx.send('Pong!')
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def conn(ctx):
     """send amount of connected devices"""
     result = execute(
@@ -125,6 +128,7 @@ async def conn(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def connlst(ctx):
     """send list of IPs of connected devices"""
     #get and write to file list of estabilished connections (their IP's actually)
@@ -137,6 +141,7 @@ async def connlst(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def banlist(ctx):
     """send list of banned IPs"""
     tmp = execute('firewall-cmd --zone=public --list-rich-rules').strip()
@@ -153,6 +158,7 @@ async def banlist(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def ban(ctx, ip: str):
     """ban IP connection; provide correct IP to ban"""
     addStatus = execute(f'firewall-cmd --zone=public --add-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
@@ -164,6 +170,7 @@ async def ban(ctx, ip: str):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def unban(ctx, ip: str):
     """unban IP connection; provide correct IP to unban"""
     removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
@@ -174,6 +181,7 @@ async def unban(ctx, ip: str):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def serverinfo(ctx):
     """send info about server"""
     disk = disk_usage('/')
@@ -187,6 +195,7 @@ async def serverinfo(ctx):
 
  
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def restart(ctx):
     """reboot server"""
     await ctx.send('Going to reboot the server')
@@ -195,6 +204,7 @@ async def restart(ctx):
 
 
 @bot.command()
+@commands.has_permissions(administrator=True)
 async def reboot(ctx):
     """alias of restart"""
     await ctx.send('Going to reboot the server')
