@@ -5,9 +5,8 @@ from subprocess import Popen, PIPE
 from os.path import getsize, exists
 from typing import *
 from shutil import disk_usage
-from psutil import virtual_memory, cpu_freq, cpu_percent  # type: ignore
+from psutil import virtual_memory, cpu_freq, cpu_percent
 from re import search
-from time import sleep
 
 import json
 
