@@ -2,10 +2,14 @@ from discord.ext import commands
 from discord import Intents
 
 from subprocess import Popen, PIPE
+from os.path import getsize, exists
 from typing import *
 from shutil import disk_usage
 from psutil import virtual_memory, cpu_freq, cpu_percent  # type: ignore
 from re import search
+from time import sleep
+
+import json
 
 
 #setup
@@ -20,6 +24,28 @@ with open('config.txt', 'r') as f:
     read = f.readlines()
     read = [line.strip() for line in read]
     TOKEN, PORT, *other = read # *other is just protection
+if not exists('restart_ctx.json'):
+    with open('restart_ctx.json') as f:
+        f.write('')
+
+def serialize_ctx(ctx: commands.context.Context) -> None:
+    data = {
+        'channel_id': ctx.channel.id,
+        'guild_id': ctx.guild.id
+    }
+    with open('restart_ctx.json', 'w') as f:
+        f.write(json.dumps(data))
+
+
+def deserialize_ctx() -> dict:
+    with open('restart_ctx.json', 'r') as f:
+        return json.load(f)
+    
+
+def fetch_ctx(bot, data: dict):
+    guild = bot.get_guild(data['guild_id']) if data['guild_id'] else None
+    channel = guild.get_channel(data['channel_id']) if guild else bot.get_channel(data['channel_id'])
+    return channel
 
 
 def execute(cmd: str) -> Any:
@@ -39,6 +65,12 @@ def get_size(bytes: int) -> str:
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
+    if getsize('restart_ctx.json') != 0:
+        data = deserialize_ctx()
+        channel = fetch_ctx(bot, data)
+        await channel.send('Restarted successfully')
+        with open('restart_ctx.json', 'w') as f:
+            f.write('')
 
 
 @bot.event
@@ -122,6 +154,13 @@ async def serverinfo(ctx):
             + f'**RAM**     {get_size(memory.used)} / {get_size(memory.total)}\n' \
             + f'**CPU**     {cpu_freq().current}MHz / {cpu_freq().max}MHz  perc:{cpu_percent()}%'
     await ctx.send(result)
+
+
+@bot.command()
+async def restart(ctx):
+    """reboot server"""
+    serialize_ctx(ctx)
+    execute('reboot')
 
 
 #run
