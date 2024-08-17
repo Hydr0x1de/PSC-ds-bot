@@ -7,7 +7,9 @@ install packages
 `pip install discord.py psutil`
 
 - create "config.txt" file
+
 - add the discord bot token in the first line 
+
 - add the port which proxy uses in the second line
 
 run the bot 
