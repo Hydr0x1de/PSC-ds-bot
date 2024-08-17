@@ -159,6 +159,7 @@ async def serverinfo(ctx):
 @bot.command()
 async def restart(ctx):
     """reboot server"""
+    await ctx.send('Going to reboot the server')
     serialize_ctx(ctx)
     execute('reboot')
 
