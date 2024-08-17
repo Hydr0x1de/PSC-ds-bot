@@ -12,3 +12,17 @@ add the port which proxy uses in the second line
 
 run the bot 
 `python3 main.py`
+
+---
+commands list:
+```
+- help
+- ping       - ping the bot
+- conn       - get amount of connected devices
+- connlst    - get list of connected devices (their IPs)
+- banlist    - get the ban list
+- ban <IP>   - ban
+- unban <IP> - unban
+- serverinfo - get basic information about host server
+- restart    - restart (reboot) entire server
+```

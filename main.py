@@ -28,6 +28,7 @@ if not exists('restart_ctx.json'):
     with open('restart_ctx.json', 'w') as f:
         f.write('')
 
+#tools
 def serialize_ctx(ctx: commands.context.Context) -> None:
     data = {
         'channel_id': ctx.channel.id,
@@ -61,7 +62,7 @@ def get_size(bytes: int) -> str:
             return f"{bytes:.2f}{unit}B"
         bytes /= 1024
 
-
+#bot logic
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
@@ -80,6 +81,22 @@ async def on_message(message):
     print(f'message from {message.author} : {message.content}')
     await bot.process_commands(message)
 
+
+@bot.command()
+async def help(ctx):
+    """send help message"""
+    msg = """commands list:\n```
+    - help       - this message
+    - ping       - ping the bot
+    - conn       - get amount of connected devices
+    - connlst    - get list of connected devices (their IPs)
+    - banlist    - get the ban list
+    - ban <IP>   - ban
+    - unban <IP> - unban
+    - serverinfo - get basic information about host server
+    - restart    - restart (reboot) entire server```
+    """
+    await ctx.send(msg)
 
 @bot.command()
 async def ping(ctx):
@@ -162,6 +179,12 @@ async def restart(ctx):
     await ctx.send('Going to reboot the server')
     serialize_ctx(ctx)
     execute('reboot')
+
+
+@bot.command()
+async def reboot(ctx):
+    """alias of restart"""
+    await restart(ctx)
 
 
 #run
