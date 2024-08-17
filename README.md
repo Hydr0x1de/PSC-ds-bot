@@ -6,11 +6,11 @@ and activate it `source venv/bin/activate`
 install packages
 `pip install discord.py psutil`
 
-- create "config.txt" file
+create "config.txt" file
 
-- add the discord bot token in the first line 
+add the discord bot token in the first line 
 
-- add the port which proxy uses in the second line
+add the port which proxy uses in the second line
 
 run the bot 
 `python3 main.py`
