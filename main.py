@@ -98,6 +98,7 @@ async def help(ctx):
     """
     await ctx.send(msg)
 
+
 @bot.command()
 async def ping(ctx):
     """Pong!"""
@@ -122,6 +123,7 @@ async def connlst(ctx):
         await ctx.send(f'List of all connected devices:\n{result}')
     else:
         await ctx.send('No devices connected yet')
+
 
 @bot.command()
 async def banlist(ctx):
@@ -184,7 +186,9 @@ async def restart(ctx):
 @bot.command()
 async def reboot(ctx):
     """alias of restart"""
-    await restart(ctx)
+    await ctx.send('Going to reboot the server')
+    serialize_ctx(ctx)
+    execute('reboot')
 
 
 #run
