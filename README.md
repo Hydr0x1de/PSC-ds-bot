@@ -30,6 +30,6 @@ commands list:
 - reboot     - alias of restart
 ```
 
-Using restart / reboot commands supposes you run the bot not on the local computer, and also have setted up autostart of the bot.
+Using restart / reboot commands supposes you run the bot not on the local computer, and also have set up autostart of the bot.
 
-Using ban commands supposes you have setted up firewalld.
+Using ban commands supposes you have set up firewalld.
