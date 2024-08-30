@@ -1,3 +1,4 @@
 config.txt
 venv
 restart_ctx.json
+commands/__pycache__
