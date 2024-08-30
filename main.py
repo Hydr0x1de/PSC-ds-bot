@@ -1,12 +1,13 @@
 from discord.ext import commands
 from discord import Intents
-
 from os.path import getsize, exists
+from os import system
 from typing import *
 
 import commands as bot_commands
+import toml
 
-#setup
+
 intents = Intents.default()
 intents.message_content = True
 intents.guilds = True
@@ -24,13 +25,11 @@ bot.add_command(bot_commands.managment.ban)
 bot.add_command(bot_commands.managment.unban)
 bot.add_command(bot_commands.managment.reboot)
 
-with open('config.txt', 'r') as f: 
-    read = f.readlines()
-    read = [line.strip() for line in read]
-    TOKEN, PORT, *other = read # *other is just protection
-if not exists('restart_ctx.json'):
-    with open('restart_ctx.json', 'w') as f:
-        f.write('')
+config = toml.load('config.toml')
+TOKEN = config['token']
+PORT = config['port']
+
+system('touch restart_ctx.json')
 
 
 @bot.event

@@ -1,4 +1,4 @@
-config.txt
+config.toml
 venv
 restart_ctx.json
 commands/__pycache__
