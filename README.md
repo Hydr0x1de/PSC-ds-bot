@@ -1,22 +1,19 @@
-setup
+Setup
 ---
-create virtual environment `python3 -m venv venv`
-and activate it `source venv/bin/activate`
+`./setup.sh`
 
-install packages
-`pip install discord.py psutil`
+Fill in `config.toml`: token and port (port which proxy-server uses).
 
-create "config.txt" file
+Additionally, if you wanna use banlist/ban/unban commands, you should install and configure `firewalld`
 
-- add the discord bot token in the first line 
+`sudo apt install firewalld`
 
-- add the port which proxy uses in the second line
-
-run the bot 
+Run the bot 
 `python3 main.py`
 
+
+Commands list
 ---
-commands list:
 ```
 - help
 - ping       - ping the bot
@@ -26,10 +23,7 @@ commands list:
 - ban <IP>   - ban
 - unban <IP> - unban
 - serverinfo - get basic information about host server
-- restart    - restart (reboot) entire server
-- reboot     - alias of restart
+- reboot     - reboot entire server
 ```
 
-Using restart / reboot commands supposes you run the bot not on the local computer, and also have set up autostart of the bot.
-
-Using ban commands supposes you have set up firewalld.
+Using reboot command supposes you run the bot not on the local computer, and also have set up autostart of the bot.
