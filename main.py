@@ -26,8 +26,8 @@ bot.add_command(bot_commands.managment.unban)
 bot.add_command(bot_commands.managment.reboot)
 
 config = toml.load('config.toml')
-TOKEN = config['token']
-PORT = config['port']
+TOKEN = config['TOKEN']
+PORT = config['PORT']
 
 system('touch restart_ctx.json')
 
