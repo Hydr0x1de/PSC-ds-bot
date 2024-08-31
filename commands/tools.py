@@ -1,10 +1,11 @@
-from discord.ext import commands
-from discord.abc import GuildChannel
 from subprocess import Popen, PIPE
 from os.path import getsize
-import functools
+from functools import wraps
 import json 
 import re
+
+from discord.ext import commands
+from discord.abc import GuildChannel
 
 
 def serialize_ctx(ctx: commands.context.Context) -> None:
@@ -61,7 +62,7 @@ def is_valid_ipv4(ip):
 
 
 def validate_ip(func):
-    @functools.wraps(func)
+    @wraps(func)
     async def wrapper(ctx, ip):
         if not is_valid_ipv4(ip):
             print('provided ip is invalid')

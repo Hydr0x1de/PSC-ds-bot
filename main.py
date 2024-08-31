@@ -1,11 +1,12 @@
+from os import system
+
 from discord.ext.commands import Bot
 from discord import Intents
-from typing import *
-from os import system
-import commands
 import toml
 
+import commands
 
+# Setup
 intents = Intents.default()
 intents.message_content = True
 intents.guilds = True
@@ -29,7 +30,7 @@ PORT = config['PORT']
 
 system('touch restart_ctx.json')
 
-
+# Logic
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
@@ -43,7 +44,6 @@ async def on_message(message):
     print(f'message from {message.author} : {message.content}')
     await bot.process_commands(message)
 
-
-#run
+# Run
 if __name__ == '__main__':
     bot.run(TOKEN)

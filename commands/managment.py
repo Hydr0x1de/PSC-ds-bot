@@ -1,6 +1,8 @@
-from discord.ext import commands
-from .tools import execute, serialize_ctx, validate_ip
 from re import search
+
+from discord.ext import commands
+
+from .tools import execute, serialize_ctx, validate_ip
 
 @commands.command()
 async def banlist(ctx) -> None:
