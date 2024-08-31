@@ -1,12 +1,14 @@
+Description
+---
+This is a discord bot made to control proxy server.
+
 Setup
 ---
-`./setup.sh`
+run `./setup.sh`
 
 Fill in `config.toml`: token and port (port which proxy-server uses).
 
-Additionally, if you wanna use banlist/ban/unban commands, you should install and configure `firewalld`
-
-`sudo apt install firewalld`
+Additionally, if you wanna use banlist/ban/unban commands, you should install and configure `firewalld` (`sudo apt install firewalld`)
 
 Run the bot 
 `python3 main.py`
@@ -26,4 +28,4 @@ Commands list
 - reboot     - reboot entire server
 ```
 
-Using reboot command supposes you run the bot not on the local computer, and also have set up autostart of the bot.
+> Using reboot command supposes you run the bot not on the local computer, and also have set up autostart of the bot.
