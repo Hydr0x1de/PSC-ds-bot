@@ -4,7 +4,7 @@ This is a discord bot made to control proxy server.
 
 Setup
 ---
-run `./setup.sh`
+Run `./setup.sh`
 
 Fill in `config.toml`: token and port (port which proxy-server uses).
 
