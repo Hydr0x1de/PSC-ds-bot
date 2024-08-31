@@ -9,7 +9,8 @@ def serialize_ctx(ctx: commands.context.Context) -> None:
     """serialize ctx and write to file (to save it through system reboot)"""
     data = {
         'channel_id': ctx.channel.id,
-        'guild_id': ctx.guild.id
+        'guild_id': ctx.guild.id,
+        'author_mention': ctx.author.mention
     }
     with open('restart_ctx.json', 'w') as f:
         f.write(json.dumps(data))
@@ -32,7 +33,8 @@ def process_restart(bot: commands.Bot) -> None:
     #if file is not blank:
     data = deserialize_ctx()
     channel = fetch_ctx(bot, data)
-    channel.send('Restarted successfully') 
+    user_mention = data['author_mention']
+    channel.send(f'{user_mention} Restarted successfully') 
     with open('restart_ctx.json', 'w') as f:
         f.write('')
 
