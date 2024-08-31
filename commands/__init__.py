@@ -1,3 +1,4 @@
-import commands.common
-import commands.connections
-import commands.managment
+from . import common
+from . import connections
+from . import managment
+from . import tools
