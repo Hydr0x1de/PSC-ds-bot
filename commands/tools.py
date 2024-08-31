@@ -2,7 +2,9 @@ from discord.ext import commands
 from discord.abc import GuildChannel
 from subprocess import Popen, PIPE
 from os.path import getsize
+import functools
 import json 
+import re
 
 
 def serialize_ctx(ctx: commands.context.Context) -> None:
@@ -51,3 +53,20 @@ def hr_size(bytes: int) -> str:
         if bytes < 1024:
             return f"{bytes:.2f}{unit}B"
         bytes /= 1024
+
+
+def is_valid_ipv4(ip):
+    ipv4_pattern = re.compile(r'^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$')
+    return bool(ipv4_pattern.match(ip))
+
+
+def validate_ip(func):
+    @functools.wraps(func)
+    async def wrapper(ctx, ip):
+        if not is_valid_ipv4(ip):
+            print('provided ip is invalid')
+            await ctx.send("Invalid IP!")
+            return
+        return await func(ctx, ip)
+    
+    return wrapper

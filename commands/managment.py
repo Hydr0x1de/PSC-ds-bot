@@ -1,9 +1,9 @@
 from discord.ext import commands
-from .tools import execute, serialize_ctx
+from .tools import execute, serialize_ctx, validate_ip
 from re import search
 
 @commands.command()
-async def banlist(ctx):
+async def banlist(ctx) -> None:
     """send list of banned IPs"""
     tmp = execute('firewall-cmd --zone=public --list-rich-rules').strip()
     if not tmp:
@@ -19,7 +19,8 @@ async def banlist(ctx):
 
 
 @commands.command()
-async def ban(ctx, ip: str):
+@validate_ip
+async def ban(ctx, ip: str) -> None:
     """ban IP connection; provide correct IP to ban"""
     addStatus = execute(f'firewall-cmd --zone=public --add-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
     addStatus = 'ERR' if not addStatus else addStatus.upper()
@@ -30,7 +31,8 @@ async def ban(ctx, ip: str):
 
 
 @commands.command()
-async def unban(ctx, ip: str):
+@validate_ip
+async def unban(ctx, ip: str) -> None:
     """unban IP connection; provide correct IP to unban"""
     removeStatus = execute(f'firewall-cmd --zone=public --remove-rich-rule=\'rule family="ipv4" source address="{ip}" drop\' --permanent')
     removeStatus =  'ERR' if not removeStatus else removeStatus.upper()
@@ -40,7 +42,7 @@ async def unban(ctx, ip: str):
 
 
 @commands.command()
-async def reboot(ctx):
+async def reboot(ctx) -> None:
     """reboot server"""
     await ctx.send('Going to reboot the server')
     serialize_ctx(ctx)
